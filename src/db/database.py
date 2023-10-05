@@ -18,7 +18,7 @@ class Database():
             'database': config('DATABASE'),
             'connect_timeout': 60
         }
-        self.cnx = None
+        self.mysql = None
 
     #Config Access
     def login_database(self) -> 'mysql.connector.cursor':
@@ -27,8 +27,8 @@ class Database():
         '''
         try:
             print('login_database')
-            self.cnx = mysql.connector.connect(**self.config)
-            return self.cnx.cursor()
+            self.mysql = mysql.connector.connect(**self.config)
+            return self.mysql.cursor()
         except mysql.connector.Error as error:
             print('Login database Error: ' + str(error))
     
@@ -36,8 +36,8 @@ class Database():
         '''
         Cerramos la conexion a la base de datos.
         '''
-        if self.cnx:
-            self.cnx.close()
+        if self.mysql:
+            self.mysql.close()
 
     # SELECTS
     def get_categories(self) -> list:
