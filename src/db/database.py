@@ -1,26 +1,24 @@
-from flask_mysqldb import MySQL
 import mysql.connector
 
 # Decouple
 from decouple import config
 
 class Database():
-    def __init__(self, app):
+    def __init__(self):
         '''
         Configuración de la base de datos MySQL
         '''
-        print('[ORDERS] Inicializando base de datos...')
-        self.controller = None
-        self.app = app
+        print('[ETL] Inicializando base de datos...')
 
         # Config session
-        self.app.config['MYSQL_USER'] = config('USER')
-        self.app.config['MYSQL_HOST'] = config('HOST')
-        self.app.config['MYSQL_PASSWORD'] = config('PASSWD')
-        self.app.config['MYSQL_DB'] = config('DATABASE')
-        self.app.config['MYSQL_CONNECT_TIMEOUT'] = 60
-        
-        self.mysql = MySQL(self.app)
+        self.config = {
+            'user': config('USER'),
+            'host': config('HOST'),
+            'password': config('PASSWD'),
+            'database': config('DATABASE'),
+            'connect_timeout': 60
+        }
+        self.cnx = None
 
     #Config Access
     def login_database(self) -> 'mysql.connector.cursor':
@@ -29,10 +27,18 @@ class Database():
         '''
         try:
             print('login_database')
-            return self.mysql.connection.cursor()
+            self.cnx = mysql.connector.connect(**self.config)
+            return self.cnx.cursor()
         except mysql.connector.Error as error:
             print('Login database Error: ' + str(error))
     
+    def logout_database(self):
+        '''
+        Cerramos la conexion a la base de datos.
+        '''
+        if self.cnx:
+            self.cnx.close()
+
     # SELECTS
     def get_categories(self) -> list:
         '''
@@ -46,6 +52,8 @@ class Database():
         except mysql.connector.Error as error:
             print('Error get_categories: ' + str(error))
             return [[], False]
+        finally:
+            self.logout_database()
         
     def get_sellers(self) -> list:
         '''
@@ -59,6 +67,8 @@ class Database():
         except mysql.connector.Error as error:
             print('Error get_sellers: ' + str(error))
             return [[], False]
+        finally:
+            self.logout_database()
 
     # INSERTS
     def insert_sellers(self, seller: dict):
@@ -82,7 +92,9 @@ class Database():
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
             return [[], False]
-    
+        finally:
+            self.logout_database()
+
     def insert_categories(self, category: dict):
         '''
         Insertamos las categorias en la base de datos.
@@ -99,7 +111,9 @@ class Database():
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
             return [[], False]
-    
+        finally:
+            self.logout_database()
+
     def insert_products(self, product: dict):
         '''
         Insertamos los productos en la base de datos.
@@ -119,6 +133,8 @@ class Database():
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
             return [[], False]
+        finally:
+            self.logout_database()
 
     def insert_product_details(self, details: dict):
         '''
@@ -146,7 +162,9 @@ class Database():
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
             return [[], False]
-    
+        finally:
+            self.logout_database()
+
     def insert_locations(self, location: dict):
         '''
         Insertamos las ubicaciones en la base de datos.
@@ -164,3 +182,5 @@ class Database():
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
             return [[], False]
+        finally:
+            self.logout_database()
