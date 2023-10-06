@@ -78,7 +78,6 @@ class Database():
             - k_seller: int
             - name: str
             - rating: float
-
         '''
         try:
             ncursor = self.login_database()
@@ -93,7 +92,7 @@ class Database():
                 seller.get('eshop', {}).get('site_id', None)
                 ))
         except mysql.connector.Error as error:
-            print('Error consultar_presupuestos_vendedor: ' + str(error))
+            print('Error insert_sellers: ' + str(error))
             return [[], False]
         finally:
             self.logout_database()
@@ -115,7 +114,7 @@ class Database():
             self.mysql.commit()
             return f"Categoria: {category['name']} añadida satisfactoriamente.", True
         except mysql.connector.Error as error:
-            print('Error consultar_presupuestos_vendedor: ' + str(error))
+            print('Error insert_categories: ' + str(error))
             return [[], False]
         finally:
             self.logout_database()
@@ -140,7 +139,7 @@ class Database():
             self.mysql.commit()
             return f"Producto: {product['title']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
-            print('Error consultar_presupuestos_vendedor: ' + str(error))
+            print('Error insert_products: ' + str(error))
             return [[], False]
         finally:
             self.logout_database()
@@ -161,7 +160,7 @@ class Database():
             # Debug LOG
             print(f"[DEBUG]|DB - insert_product_details: {details}")
 
-            query = "INSERT INTO ProductDetails VALUES (NULL, %s, %s, %s, %s, %s)"
+            query = "INSERT INTO Product_Details VALUES (NULL, %s, %s, %s, %s, %s)"
             ncursor.execute(query, (
                 details['date'], 
                 details['amount_sold'], 
@@ -172,7 +171,7 @@ class Database():
             self.mysql.commit()
             return f"Producto: {details['product_id']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
-            print('Error consultar_presupuestos_vendedor: ' + str(error))
+            print('Error insert_product_details: ' + str(error))
             return [[], False]
         finally:
             self.logout_database()
@@ -195,7 +194,7 @@ class Database():
             self.mysql.commit()
             return f"Ubicacion: {location['name']} añadida satisfactoriamente.", True
         except mysql.connector.Error as error:
-            print('Error consultar_presupuestos_vendedor: ' + str(error))
+            print('Error insert_locations: ' + str(error))
             return [[], False]
         finally:
             self.logout_database()
