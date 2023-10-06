@@ -106,7 +106,7 @@ class Database():
             ncursor = self.login_database()
             query = "INSERT INTO Categories VALUES (%s, %s)"
             ncursor.execute(query, (category['id'], category['name']))
-            self.mysql.connection.commit()
+            self.mysql.commit()
             return f"Categoria: {category['name']} añadida satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
@@ -128,7 +128,7 @@ class Database():
             ncursor = self.login_database()
             query = "INSERT INTO Products VALUES (%s, %s, %s, %s, %s)"
             ncursor.execute(query, (product['id'], product['title'], product['price'], product['condition'], product['category_id']))
-            self.mysql.connection.commit()
+            self.mysql.commit()
             return f"Producto: {product['title']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
@@ -157,7 +157,7 @@ class Database():
                 details['product_id'], 
                 details['seller_id']
                 ))
-            self.mysql.connection.commit()
+            self.mysql.commit()
             return f"Producto: {details['product_id']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
@@ -177,7 +177,7 @@ class Database():
             ncursor = self.login_database()
             query = "INSERT INTO Locations VALUES (%s, %s, %s)"
             ncursor.execute(query, (location['id'], location['name'], location['type'], location['parent_id']))
-            self.mysql.connection.commit()
+            self.mysql.commit()
             return f"Ubicacion: {location['name']} añadida satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error consultar_presupuestos_vendedor: ' + str(error))
