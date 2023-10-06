@@ -14,6 +14,7 @@ from decouple import config
 
 # Utils
 from src.utils.get_auth import get_auth
+from src.utils.get_city import get_city
 
 MELI_API_URL = "https://api.mercadolibre.com"
 APP_ID = config('APP_ID')
@@ -43,15 +44,18 @@ def extraer_productos():
                 message , sucess = database.insert_products(product)
                 print(f"[DEBUG] . extraer_productos/insert_products: {message}, {sucess}]")
 
+                city = get_city(MELI_API_URL, product['seller']['id'])
+                print(f"[DEBUG] . extraer_productos/get_city: {city}]")
+
                 location = {
-                    "id": product['seller_address']['city']['name'],
+                    "id": city,
                     "state": product['seller_address']['state']['name'],
                     "country": product['seller_address']['country']['name']
                 }
                 message , sucess = database.insert_locations(location)
                 print(f"[DEBUG] . extraer_productos/insert_locations: {message}, {sucess}]")
 
-                message , sucess = database.insert_sellers(product['seller'], product['seller_address']['city']['name'])
+                message , sucess = database.insert_sellers(product['seller'], city)
                 print(f"[DEBUG] . extraer_productos/insert_sellers: {message}, {sucess}]")
 
                 details = {

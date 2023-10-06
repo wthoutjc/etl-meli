@@ -206,7 +206,7 @@ class Database():
                 details['k_seller']
                 ))
             self.mysql.commit()
-            return f"Producto: {details['product_id']} añadido satisfactoriamente.", True
+            return f"Producto: {details['k_product']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error insert_product_details: ' + str(error))
             return [[], False]
