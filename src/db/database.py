@@ -6,6 +6,8 @@ from decouple import config
 # Utils
 from src.utils.get_category import get_category
 
+MELI_API_URL = "https://api.mercadolibre.com"
+
 class Database():
     def __init__(self):
         '''
@@ -153,7 +155,7 @@ class Database():
             print(f"[DEBUG]|DB - insert_products: {product['id'], product['title'], product['price'], product['condition'], product['category_id']}")
             category , success = self.get_category(product['category_id'])
             if not success:
-                category = get_category(product['category_id'])
+                category = get_category(MELI_API_URL, product['category_id'])
                 message, success= self.insert_categories(category)
                 if not success:
                     return message, success
