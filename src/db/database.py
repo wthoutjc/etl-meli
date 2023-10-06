@@ -53,7 +53,8 @@ class Database():
             ncursor = self.login_database()
             query = "SELECT * FROM Categories WHERE k_categories = %s"
             ncursor.execute(query, (category_id,))
-            return ncursor.fetchone(), True
+            category = ncursor.fetchone()
+            return category, True if category else False
         except mysql.connector.Error as error:
             print('Error get_category: ' + str(error))
             return [[], False]
