@@ -33,10 +33,10 @@ CREATE TABLE `Categories`
 
 CREATE TABLE `Locations`
 (
+	`city` VARCHAR(50) NOT NULL,
 	`department` VARCHAR(50) NOT NULL,
 	`country` VARCHAR(50) NOT NULL,
-	`city` VARCHAR(50) NOT NULL,
-	CONSTRAINT `PK_Locations` PRIMARY KEY (`department` ASC)
+	CONSTRAINT `PK_Locations` PRIMARY KEY (`city` ASC)
 )
 
 ;
@@ -71,8 +71,7 @@ CREATE TABLE `Sellers`
 	`k_sellers` BIGINT NOT NULL,
 	`name` VARCHAR(50) NOT NULL,
 	`rating` DECIMAL(2,2) NOT NULL,
-	`k_locations` VARCHAR(50) NOT NULL,
-	`department` VARCHAR(50) NOT NULL,
+	`city` VARCHAR(50) NULL,
 	CONSTRAINT `PK_Sellers` PRIMARY KEY (`k_sellers` ASC)
 )
 
@@ -101,7 +100,7 @@ ALTER TABLE `Products`
 ;
 
 ALTER TABLE `Sellers` 
- ADD INDEX `IXFK_Sellers_Locations` (`department` ASC)
+ ADD INDEX `IXFK_Sellers_Locations` (`city` ASC)
 ;
 
 ALTER TABLE `Text_analysis` 
@@ -121,6 +120,11 @@ ALTER TABLE `Product_Details`
 ALTER TABLE `Products` 
  ADD CONSTRAINT `FK_Products_Categories`
 	FOREIGN KEY (`k_categories`) REFERENCES `Categories` (`k_categories`) ON DELETE Restrict ON UPDATE Restrict
+;
+
+ALTER TABLE `Sellers` 
+ ADD CONSTRAINT `FK_Sellers_Locations`
+	FOREIGN KEY (`city`) REFERENCES `Locations` (`city`) ON DELETE Restrict ON UPDATE Restrict
 ;
 
 ALTER TABLE `Text_analysis` 

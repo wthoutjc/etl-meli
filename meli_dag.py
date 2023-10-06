@@ -53,9 +53,9 @@ def extraer_productos():
                 database.insert_product_details(details)
 
                 location = {
-                    product['seller_address']['country']['name'],
-                    product['seller_address']['state']['name'],
-                    product['seller_address']['city']['name']
+                    "id": product['seller_address']['city']['name'],
+                    "state": product['seller_address']['state']['name'],
+                    "country": product['seller_address']['country']['name']
                 }
                 database.insert_locations(location)
 
