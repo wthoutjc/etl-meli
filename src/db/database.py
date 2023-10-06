@@ -103,12 +103,12 @@ class Database():
         try:
             ncursor = self.login_database()
             # Debug LOG
-            print(f"[DEBUG]|DB - insert_sellers: {(
+            print(f"""[DEBUG]|DB - insert_sellers: {(
                 seller['id'], 
                 seller['nickname'], 
                 seller['seller_reputation']['transactions']['ratings']['positive'], 
                 seller.get('eshop', {}).get('site_id', None)
-            )}")
+            )}""")
 
             query = "INSERT INTO Sellers VALUES (%s, %s, %s, %s)"
             ncursor.execute(query, (
