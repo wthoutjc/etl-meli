@@ -3,6 +3,9 @@ import mysql.connector
 # Decouple
 from decouple import config
 
+# Utils
+from src.utils.get_category import get_category
+
 class Database():
     def __init__(self):
         '''
@@ -40,6 +43,21 @@ class Database():
             self.mysql.close()
 
     # SELECTS
+    def get_category(self, category_id: str) -> list:
+        '''
+        Obtenemos una categoria de la base de datos.
+        '''
+        try:
+            ncursor = self.login_database()
+            query = "SELECT * FROM Categories WHERE k_categories = %s"
+            ncursor.execute(query, (category_id,))
+            return ncursor.fetchone(), True
+        except mysql.connector.Error as error:
+            print('Error get_category: ' + str(error))
+            return [[], False]
+        finally:
+            self.logout_database()
+
     def get_categories(self) -> list:
         '''
         Obtenemos las categorias de la base de datos.
@@ -132,7 +150,13 @@ class Database():
         try:
             ncursor = self.login_database()
             # Debug LOG
-            print(f"[DEBUG]|DB - insert_products: {product}")
+            print(f"[DEBUG]|DB - insert_products: {product['id'], product['title'], product['price'], product['condition'], product['category_id']}")
+            category , success = self.get_category(product['category_id'])
+            if not success:
+                category = get_category(product['category_id'])
+                message, success= self.insert_categories(category)
+                if not success:
+                    return message, success
 
             query = "INSERT INTO Products VALUES (%s, %s, %s, %s, %s)"
             ncursor.execute(query, (product['id'], product['title'], product['price'], product['condition'], product['category_id']))
