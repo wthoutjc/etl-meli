@@ -107,7 +107,7 @@ class Database():
                 seller['id'], 
                 seller['nickname'], 
                 seller['seller_reputation']['transactions']['ratings']['positive'], 
-                seller.get('eshop', {}).get('site_id', None)
+                location
             )}""")
 
             query = "INSERT INTO Sellers VALUES (%s, %s, %s, %s)"
@@ -117,6 +117,8 @@ class Database():
                 seller['seller_reputation']['transactions']['ratings']['positive'], 
                 location
                 ))
+            self.mysql.commit()
+            return f"Vendedor: {seller['nickname']} añadido satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error insert_sellers: ' + str(error))
             return [[], False]

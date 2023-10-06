@@ -40,16 +40,19 @@ def extraer_productos():
             top_5_products = sorted(search_response.json()['results'], key=lambda product: product['sold_quantity'], reverse=True)[:5]
 
             for product in top_5_products:
-                database.insert_products(product)
+                message , sucess = database.insert_products(product)
+                print(f"[DEBUG] . extraer_productos/insert_products: {message}, {sucess}]")
 
                 location = {
                     "id": product['seller_address']['city']['name'],
                     "state": product['seller_address']['state']['name'],
                     "country": product['seller_address']['country']['name']
                 }
-                database.insert_locations(location)
+                message , sucess = database.insert_locations(location)
+                print(f"[DEBUG] . extraer_productos/insert_locations: {message}, {sucess}]")
 
-                database.insert_sellers(product['seller'], product['seller_address']['city']['name'])
+                message , sucess = database.insert_sellers(product['seller'], product['seller_address']['city']['name'])
+                print(f"[DEBUG] . extraer_productos/insert_sellers: {message}, {sucess}]")
 
                 details = {
                     "date": datetime.now(),
@@ -58,7 +61,8 @@ def extraer_productos():
                     "k_product": product['id'],
                     "k_seller": product['seller']['id']
                 }
-                database.insert_product_details(details)
+                message , sucess = database.insert_product_details(details)
+                print(f"[DEBUG] . extraer_productos/insert_product_details: {message}, {sucess}]")
 
                 
 
