@@ -82,6 +82,9 @@ class Database():
         '''
         try:
             ncursor = self.login_database()
+            # Debug LOG
+            print(f"[DEBUG]|DB - insert_sellers: {seller}")
+
             query = "INSERT INTO Sellers VALUES (%s, %s, %s, %s)"
             ncursor.execute(query, (
                 seller['id'], 
@@ -104,6 +107,9 @@ class Database():
         '''
         try:
             ncursor = self.login_database()
+            # Debug LOG
+            print(f"[DEBUG]|DB - insert_categories: {category}")
+
             query = "INSERT INTO Categories VALUES (%s, %s)"
             ncursor.execute(query, (category['id'], category['name']))
             self.mysql.commit()
@@ -126,6 +132,9 @@ class Database():
         '''
         try:
             ncursor = self.login_database()
+            # Debug LOG
+            print(f"[DEBUG]|DB - insert_products: {product}")
+
             query = "INSERT INTO Products VALUES (%s, %s, %s, %s, %s)"
             ncursor.execute(query, (product['id'], product['title'], product['price'], product['condition'], product['category_id']))
             self.mysql.commit()
@@ -149,6 +158,9 @@ class Database():
         '''
         try:
             ncursor = self.login_database()
+            # Debug LOG
+            print(f"[DEBUG]|DB - insert_product_details: {details}")
+
             query = "INSERT INTO ProductDetails VALUES (NULL, %s, %s, %s, %s, %s)"
             ncursor.execute(query, (
                 details['date'], 
@@ -175,6 +187,9 @@ class Database():
         '''
         try:
             ncursor = self.login_database()
+            # Debug LOG
+            print(f"[DEBUG]|DB - insert_locations: {location}")
+            
             query = "INSERT INTO Locations VALUES (%s, %s, %s)"
             ncursor.execute(query, (location['id'], location['name'], location['type'], location['parent_id']))
             self.mysql.commit()
