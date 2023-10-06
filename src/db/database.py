@@ -166,8 +166,8 @@ class Database():
                 details['date'], 
                 details['amount_sold'], 
                 details['available_quantity'],
-                details['product_id'], 
-                details['seller_id']
+                details['k_product'], 
+                details['k_seller']
                 ))
             self.mysql.commit()
             return f"Producto: {details['product_id']} añadido satisfactoriamente.", True
@@ -189,7 +189,7 @@ class Database():
             ncursor = self.login_database()
             # Debug LOG
             print(f"[DEBUG]|DB - insert_locations: {location}")
-            
+
             query = "INSERT INTO Locations VALUES (%s, %s, %s)"
             ncursor.execute(query, (location['id'], location['name'], location['type'], location['parent_id']))
             self.mysql.commit()
