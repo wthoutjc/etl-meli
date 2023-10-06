@@ -41,6 +41,14 @@ def extraer_productos():
 
             for product in top_5_products:
                 database.insert_products(product)
+
+                location = {
+                    "id": product['seller_address']['city']['name'],
+                    "state": product['seller_address']['state']['name'],
+                    "country": product['seller_address']['country']['name']
+                }
+                database.insert_locations(location)
+
                 database.insert_sellers(product['seller'])
 
                 details = {
@@ -52,12 +60,7 @@ def extraer_productos():
                 }
                 database.insert_product_details(details)
 
-                location = {
-                    "id": product['seller_address']['city']['name'],
-                    "state": product['seller_address']['state']['name'],
-                    "country": product['seller_address']['country']['name']
-                }
-                database.insert_locations(location)
+                
 
 # Definir el DAG
 default_args = {

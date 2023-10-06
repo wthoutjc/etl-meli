@@ -153,9 +153,12 @@ class Database():
             # Debug LOG
             print(f"[DEBUG]|DB - insert_products: {product['id'], product['title'], product['price'], product['condition'], product['category_id']}")
             category , success = self.get_category(product['category_id'])
+            print(f"[DEBUG]|DB - insert_products/get_category: {category}, {success}]")
             if not success:
                 category = get_category(MELI_API_URL, product['category_id'])
+                print(f"[DEBUG]|DB - insert_products/get_category: {category}]")
                 message, success= self.insert_categories(category)
+                print(f"[DEBUG]|DB - insert_products/insert_categories: {message}, {success}]")
                 if not success:
                     return message, success
 
