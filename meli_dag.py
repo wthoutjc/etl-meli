@@ -49,7 +49,7 @@ def extraer_productos():
                 }
                 database.insert_locations(location)
 
-                database.insert_sellers(product['seller'])
+                database.insert_sellers(product['seller'], product['seller_address']['city']['name'])
 
                 details = {
                     "date": datetime.now(),

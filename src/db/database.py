@@ -92,7 +92,7 @@ class Database():
             self.logout_database()
 
     # INSERTS
-    def insert_sellers(self, seller: dict):
+    def insert_sellers(self, seller: dict, location: str):
         '''
         Insertamos los vendedores en la base de datos.
         Args:
@@ -115,7 +115,7 @@ class Database():
                 seller['id'], 
                 seller['nickname'], 
                 seller['seller_reputation']['transactions']['ratings']['positive'], 
-                seller.get('eshop', {}).get('site_id', None)
+                location
                 ))
         except mysql.connector.Error as error:
             print('Error insert_sellers: ' + str(error))
