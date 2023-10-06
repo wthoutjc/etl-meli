@@ -192,7 +192,7 @@ class Database():
             query = "INSERT INTO Locations VALUES (%s, %s, %s)"
             ncursor.execute(query, (location['id'], location['state'], location['country']))
             self.mysql.commit()
-            return f"Ubicacion: {location['name']} añadida satisfactoriamente.", True
+            return f"Ubicacion: {location['id']} añadida satisfactoriamente.", True
         except mysql.connector.Error as error:
             print('Error insert_locations: ' + str(error))
             return [[], False]
