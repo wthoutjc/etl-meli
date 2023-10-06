@@ -150,7 +150,6 @@ class Database():
             - category: str
         '''
         try:
-            ncursor = self.login_database()
             # Debug LOG
             print(f"[DEBUG]|DB - insert_products: {product['id'], product['title'], product['price'], product['condition'], product['category_id']}")
             category , success = self.get_category(product['category_id'])
@@ -160,6 +159,7 @@ class Database():
                 if not success:
                     return message, success
 
+            ncursor = self.login_database()
             query = "INSERT INTO Products VALUES (%s, %s, %s, %s, %s)"
             ncursor.execute(query, (product['id'], product['title'], product['price'], product['condition'], product['category_id']))
             self.mysql.commit()
